@@ -9,16 +9,20 @@ var iOSoptions = {
 };
 
 function sendPush_iOS(token, msg){
-	var apnConnection = new apn.Connection(iOSoptions);
-	var device = new apn.Device(token);
+	return new Promise((resolve, reject) => {
+		var apnConnection = new apn.Connection(iOSoptions);
+		var device = new apn.Device(token);
 
-	var note = new apn.Notification();
-	note.alert = msg;
-	note.sound = 'default';
-	note.badge = 1
-	note.expiry = Math.floor(Date.now() / 1000) + 60;
+		var note = new apn.Notification();
+		note.alert = msg;
+		note.sound = 'default';
+		note.badge = 1
+		note.expiry = Math.floor(Date.now() / 1000) + 60;
 
-	apnConnection.pushNotification(note, device);
+		apnConnection.pushNotification(note, device);
+		//temp: need feedback
+		resolve();
+	});
 }
 
 exports.send = sendPush_iOS;
