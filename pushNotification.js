@@ -3,6 +3,7 @@ var Mongo = require('./mongo.js');
 var Schemas = require("./schemas.js");
 var Apns = require("./apns.js");
 var Gcm = require("./gcm.js");
+var SOAP = require("./SOAP.js");
 var Utils = require("./utils.js");
 
 function SOAPPushNotification(){
@@ -39,10 +40,10 @@ exports.go = function(conn, para){
 			switch(type)
 			{
 				case "ios":
-					Apns.send(token, "啾咪咪");
+					Apns.send(token, dataStruct.strMsg);
 					break;
 				case "android":
-					Gcm.send(token, "啾咪咪");
+					Gcm.send(token, "啾咪咪").then(xxxxxx)
 					break;
 			}
 
@@ -52,5 +53,9 @@ exports.go = function(conn, para){
 		console.log(err);
 	});*/
 
+
+	//response
+	var soapAction = new SOAP.SOAPAction(conn.res);
+	soapAction.sendSOAPAction("funPushNotification", null, "OK");
 
 }

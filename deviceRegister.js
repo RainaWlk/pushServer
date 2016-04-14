@@ -1,6 +1,7 @@
 'use strict';
 var Mongo = require('./mongo.js');
 var Schemas = require("./schemas.js");
+var SOAP = require("./SOAP.js");
 var Utils = require("./utils.js");
 
 function SOAPDeviceRegister(){
@@ -84,7 +85,8 @@ exports.go = function(conn, para)
 	});
 
 	//response
-	
+	var soapAction = new SOAP.SOAPAction(conn.res);
+	soapAction.sendSOAPAction("funDeviceRegister", null, "OK");
 
 
 	return true;
