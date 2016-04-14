@@ -5,13 +5,7 @@ var bodyParser = require('body-parser');
 var mongo = require("./mongo.js");
 var webService = require("./webService.js");
 
-
-
 function main(){
-
-
-
-
 	http.listen(8080, function(){
 		console.log("listen callback");
 	});
@@ -26,7 +20,6 @@ function main(){
 		console.log("catch");
 	});
 
-
 	app.post('/WebService.asmx',function(req, res, next){
 		req.rawBody = '';
 		req.setEncoding('utf8');
@@ -40,9 +33,6 @@ function main(){
 		});
 
 	});
-
-
-
 
 }
 
