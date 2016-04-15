@@ -14,6 +14,23 @@ function SOAPPushNotification(){
 	this.strMsg = "";
 }
 
+function check(dataStruct){
+
+	var mac = dataStruct.strMac.toLowerCase();
+	if(Utils.checkMac(mac) == false)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+function sendSOAPResponse(conn, result){
+	var soapAction = new SOAP.SOAPAction(conn.res);
+
+	soapAction.sendSOAPAction("funPushNotification", null, result);
+}
+
 exports.go = function(conn, para){
 	var dataStruct = new SOAPPushNotification();
 
@@ -22,13 +39,14 @@ exports.go = function(conn, para){
 		console.log("Integrity check error");
 		return false;
 	}
+	if(check(dataStruct) == false) {
+		return false;
+	}
 
-	console.log(dataStruct.strMac);
 	var mac = dataStruct.strMac.toLowerCase();
 
 	//get token by mac
 	var model = Mongo.getDB().model("DeviceRegister");
-
 	var promise = model.find({mac:mac}).exec();
 
 	promise.then(docs => {
@@ -36,26 +54,27 @@ exports.go = function(conn, para){
 		{
 			var type = docs[i].get('type');
 			var token = docs[i].get('token');
+			var promiseArray = [];
 
 			switch(type)
 			{
 				case "ios":
-					Apns.send(token, dataStruct.strMsg);
+					promiseArray.push(Apns.send(token, dataStruct.strMsg));
 					break;
 				case "android":
-					Gcm.send(token, "啾咪咪").then(xxxxxx)
+					promiseArray.push(Gcm.send(token, "啾咪咪"));
 					break;
 			}
 
 		}
-	});
-	/*.fail(function(err){
+		Promise.all(promiseArray).then(() => {
+			sendSOAPResponse(conn, "OK");
+		}).catch(() => {
+			sendSOAPResponse(conn, "ERROR");
+		});
+	})
+	.catch(function(err){
 		console.log(err);
-	});*/
-
-
-	//response
-	var soapAction = new SOAP.SOAPAction(conn.res);
-	soapAction.sendSOAPAction("funPushNotification", null, "OK");
+	});
 
 }

@@ -5,7 +5,7 @@ var $ = require('./jquery.js');
 
 var schemas = { //table & table str, in db
 	"DeviceRegister":{
-		"mac": { type: String, unique: true },
+		"mac": String,
 		"token" : String,
 		"type": String
 	}

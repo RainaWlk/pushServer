@@ -2,13 +2,13 @@ var apn = require("apn");
 
 //settings
 var iOSoptions = {
-	//"cert": "./cert.pem",
-	//"key": "./key.pem",
 	"passphrase": "1111",
 	"production": false
 };
 
 function sendPush_iOS(token, msg){
+	console.log("send to iOS...");
+	console.log(token);
 	return new Promise((resolve, reject) => {
 		var apnConnection = new apn.Connection(iOSoptions);
 		var device = new apn.Device(token);
@@ -16,7 +16,7 @@ function sendPush_iOS(token, msg){
 		var note = new apn.Notification();
 		note.alert = msg;
 		note.sound = 'default';
-		note.badge = 1
+		note.badge = 1;
 		note.expiry = Math.floor(Date.now() / 1000) + 60;
 
 		apnConnection.pushNotification(note, device);

@@ -4,7 +4,9 @@ var APIKEY = 'AIzaSyB9vkoHZ435D9-BVfyq9QTEkh6bFKxyVw4';
 
 //settings
 function sendPush_Android(token, msg){
-	
+	console.log("send to Android...");
+	console.log(token);
+
 	var message = new gcm.Message({
 	    collapseKey: 'demo',
 	    priority: 'high',
@@ -29,12 +31,12 @@ function sendPush_Android(token, msg){
 			if(err)
 			{
 				console.error(err);
-				//reject();
+				reject();
 			}
 			else
 			{ 
 				console.log(response);
-				//resolve();
+				resolve();
 			}
 		});
 	});

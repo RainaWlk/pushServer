@@ -3,16 +3,13 @@
 var xml2js = require('xml2js').parseString;
 var DeviceRegister = require("./deviceRegister.js");
 var PushNotification = require("./pushNotification.js");
+var connInfo = require("./connInfo.js");
 
-function ConnInfo(res)
-{
-	this.res = res;
-}
 
 exports.go = function(req, res){
 	xml2js(req.rawBody, function (err, result) {
 		for(var i in result["soap:Envelope"]["soap:Body"][0]){
-			var conn = new ConnInfo(res);
+			var conn = new connInfo.ConnInfo(res);
 			var result = route(conn, i, result["soap:Envelope"]["soap:Body"][0][i]);
 
 			if(result == false)
@@ -29,7 +26,7 @@ exports.go = function(req, res){
 
 function route(conn, cmd, value)
 {
-	var result = null;
+	var result = false;
 	switch(cmd)
 	{
 		case "funDeviceRegister":

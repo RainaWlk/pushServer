@@ -8,8 +8,6 @@ function SOAPAction(res)
 	this.res = res;
 };
 
-exports.SOAPAction = SOAPAction;
-
 // @prototype
 SOAPAction.prototype = 
 {
@@ -129,3 +127,4 @@ SOAPAction.prototype.sendSOAPAction = function(aSoapAction, aPara, result)
 	this.res.send(body);
 }
 
+exports.SOAPAction = SOAPAction;

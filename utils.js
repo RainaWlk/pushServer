@@ -47,7 +47,6 @@ function copyData(schema, data)
 			schema[i] = data[i][0];
 		}
 	}
-	console.log("check done");
 	return true;
 }
 
