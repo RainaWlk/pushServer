@@ -1,9 +1,10 @@
+'use strict';
 var express = require("express");
 var app = express();
 var http = require("http").Server(app);
 var bodyParser = require('body-parser');
-var mongo = require("./mongo.js");
-var webService = require("./webService.js");
+var mongo = require("./mongo/mongo.js");
+var webService = require("./webService/webService.js");
 
 function main(){
 	http.listen(8080, function(){
@@ -14,7 +15,7 @@ function main(){
 
 	console.log("Server has started.");
 
-	mongo.connect().then(function(){
+	mongo.init().then(function(){
 		console.log("then");
 	}).catch(function(){
 		console.log("catch");
